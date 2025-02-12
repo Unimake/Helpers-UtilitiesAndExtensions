@@ -254,10 +254,10 @@ namespace System
         /// <summary>
         /// Verifica se uma data é um dia útil no Brasil (exclui finais de semana e feriados).
         /// </summary>
-        /// <param name="data">Data a ser verificada</param>
-        public static bool IsBusinessDay(this DateTime data)
+        /// <param name="dateTime">Data a ser verificada</param>
+        public static bool IsBusinessDay(this DateTime dateTime)
         {
-            if (IsWeekend(data) || IsHoliday(data))
+            if (IsWeekend(dateTime) || IsHoliday(dateTime))
             {
                 return false;
             }
@@ -268,10 +268,10 @@ namespace System
         /// <summary>
         /// Verifica se a data informada é um feriado fixo ou móvel.
         /// </summary>
-        /// <param name="data">Data a ser verificada</param>
-        public static bool IsHoliday(this DateTime data)
+        /// <param name="dateTime">Data a ser verificada</param>
+        public static bool IsHoliday(this DateTime dateTime)
         {
-            return FixedHolidays().Contains(data.Date) || MovableHolidays(data).Contains(data.Date);
+            return FixedHolidays().Contains(dateTime.Date) || MovableHolidays(dateTime).Contains(dateTime.Date);
         }
 
         #endregion
@@ -285,10 +285,10 @@ namespace System
         /// <summary>
         /// Retorna se a data informada é um final de semana (sábado ou domingo).
         /// </summary>
-        /// <param name="data">Data a ser verificada</param>
-        private static bool IsWeekend(DateTime data)
+        /// <param name="dateTime">Data a ser verificada</param>
+        private static bool IsWeekend(DateTime dateTime)
         {
-            return data.DayOfWeek == DayOfWeek.Saturday || data.DayOfWeek == DayOfWeek.Sunday;
+            return dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday;
         }
 
         /// <summary>
@@ -296,47 +296,47 @@ namespace System
         /// </summary>
         private static HashSet<DateTime> FixedHolidays()
         {
-            int ano = DateTime.Now.Year;
+            int year = DateTime.Now.Year;
             return new HashSet<DateTime>
             {
-                new DateTime(ano, 1, 1),  // Confraternização Universal
-                new DateTime(ano, 4, 21), // Tiradentes
-                new DateTime(ano, 5, 1),  // Dia do Trabalho
-                new DateTime(ano, 9, 7),  // Independência do Brasil
-                new DateTime(ano, 10, 12),// Nossa Senhora Aparecida
-                new DateTime(ano, 11, 2), // Finados
-                new DateTime(ano, 11, 15),// Proclamação da República
-                new DateTime(ano, 12, 25) // Natal
+                new DateTime(year, 1, 1),  // Confraternização Universal
+                new DateTime(year, 4, 21), // Tiradentes
+                new DateTime(year, 5, 1),  // Dia do Trabalho
+                new DateTime(year, 9, 7),  // Independência do Brasil
+                new DateTime(year, 10, 12),// Nossa Senhora Aparecida
+                new DateTime(year, 11, 2), // Finados
+                new DateTime(year, 11, 15),// Proclamação da República
+                new DateTime(year, 12, 25) // Natal
             };
         }
 
         /// <summary>
         /// Retorna a lista de feriados móveis baseados na Páscoa.
         /// </summary>
-        /// <param name="data">Informar um data para que verifiquemos os feriados móveis do ano da data informada</param>
-        private static HashSet<DateTime> MovableHolidays(DateTime data)
+        /// <param name="dateTime">Informar um data para que verifiquemos os feriados móveis do ano da data informada</param>
+        private static HashSet<DateTime> MovableHolidays(DateTime dateTime)
         {
-            int ano = data.Year;
-            DateTime pascoa = CalculateEaster(ano);
+            int year = dateTime.Year;
+            DateTime easter = CalculateEaster(year);
             return new HashSet<DateTime>
             {
-                pascoa.AddDays(-47), // Carnaval (segunda-feira)
-                pascoa.AddDays(-46), // Carnaval (terça-feira)
-                pascoa.AddDays(-2),  // Sexta-feira Santa
-                pascoa,              // Páscoa
-                pascoa.AddDays(60)   // Corpus Christi
+                easter.AddDays(-47), // Carnaval (segunda-feira)
+                easter.AddDays(-46), // Carnaval (terça-feira)
+                easter.AddDays(-2),  // Sexta-feira Santa
+                easter,              // Páscoa
+                easter.AddDays(60)   // Corpus Christi
             };
         }
 
         /// <summary>
         /// Calcula a data da Páscoa para um determinado ano usando o algoritmo de Gauss.
         /// </summary>
-        /// <param name="ano">Ano que é para calcular a data da Páscoa</param>
-        private static DateTime CalculateEaster(int ano)
+        /// <param name="year">Ano que é para calcular a data da Páscoa</param>
+        private static DateTime CalculateEaster(int year)
         {
-            int a = ano % 19;
-            int b = ano / 100;
-            int c = ano % 100;
+            int a = year % 19;
+            int b = year / 100;
+            int c = year % 100;
             int d = b / 4;
             int e = b % 4;
             int f = (b + 8) / 25;
@@ -349,7 +349,7 @@ namespace System
             int mes = (h + l - 7 * m + 114) / 31;
             int dia = ((h + l - 7 * m + 114) % 31) + 1;
 
-            return new DateTime(ano, mes, dia);
+            return new DateTime(year, mes, dia);
         }
 
         #endregion
