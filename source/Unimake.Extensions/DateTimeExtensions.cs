@@ -304,7 +304,7 @@ namespace System
         /// </summary>
         /// <param name="unixTimeStamp">Unix <see cref="DateTime"/> em segundos</param>
         /// <returns></returns>
-        public static DateTime UnixTimeStampToDateTime(long unixTimeStamp)
+        public static DateTime UnixTimeStampToDateTime(this long unixTimeStamp)
         {
             var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
