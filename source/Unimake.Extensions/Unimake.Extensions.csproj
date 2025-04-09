@@ -5,17 +5,17 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Company>Unimake Software</Company>
 		<Authors>Unimake Software</Authors>
-		<Copyright>$(Authors) $([System.DateTime]::Now.Year) Â©</Copyright>
+		<Copyright>$(Authors) $([System.DateTime]::Now.Year) ©</Copyright>
 		<PackageProjectUrl>https://github.com/Unimake/Helpers-UtilitiesAndExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Unimake/Helpers-UtilitiesAndExtensions</RepositoryUrl>
 		<PackageTags>unimake;extensions;helpers;utilities</PackageTags>
-		<AssemblyVersion>2025.03.18.1457</AssemblyVersion>
-		<Version>20250318.1457.01</Version>
+		<AssemblyVersion>2025.04.09.0217</AssemblyVersion>
+		<Version>20250409.0217.28</Version>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
 		<ApplicationIcon>unimake.ico</ApplicationIcon>
 		<PackageIcon>unimake.png</PackageIcon>
 		<RootNamespace>$(MSBuildProjectName.Replace(" ", "_").Substring(0,7))</RootNamespace>
-		<Description>ExtensÃµes diversas para strings, objetos, refactoring.</Description>
+		<Description>Extensões diversas para strings, objetos, refactoring.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>

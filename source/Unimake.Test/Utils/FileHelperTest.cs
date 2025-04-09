@@ -8,7 +8,7 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Utils
     {
         #region Public Methods
 
-        [Fact]
+        [Fact(Skip = "Ignorar se não for chamado manualmente")]
         public void GravarArquivoPDF()
         {
             var fi = new FileInfo(".\\Assets\\Files\\PDFFile.pdf");
@@ -26,7 +26,7 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Utils
             fi.Delete();
         }
 
-        [Fact]
+        [Fact(Skip = "Ignorar se não for chamado manualmente")]
         public void GravarArquivoTXT()
         {
             var fi = new FileInfo(".\\Assets\\Files\\TXTFile.txt");

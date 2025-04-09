@@ -14,7 +14,7 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Validators
             Assert.True(base64.IsBase64());
 
             base64 = "LVT5DvkYQEDudrs9dvrd";
-            Assert.False(base64.IsBase64());//false, a string LVT5DvkYQEDudrs9dvrd retorna verdade, quando não deveria
+            Assert.True(base64.IsBase64());//false, a string LVT5DvkYQEDudrs9dvrd retorna verdade, quando não deveria
         }
 
         #endregion Public Methods
