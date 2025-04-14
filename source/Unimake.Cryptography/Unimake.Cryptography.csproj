@@ -9,8 +9,8 @@
 		<PackageProjectUrl>https://github.com/Unimake/Helpers-UtilitiesAndExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Unimake/Helpers-UtilitiesAndExtensions</RepositoryUrl>
 		<PackageTags>unimake;Utils;helpers;utilities</PackageTags>
-		<AssemblyVersion>2025.04.09.0217</AssemblyVersion>
-		<Version>20250409.0217.28</Version>
+		<AssemblyVersion>2025.04.14.1142</AssemblyVersion>
+		<Version>20250414.1142.52</Version>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
 		<RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 		<Description>Utilitários para criptografia de arquivos, strings e certificados.</Description>
