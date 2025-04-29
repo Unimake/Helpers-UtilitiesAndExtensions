@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Unimake.Formatters;
+﻿using Unimake.Formatters;
 using Xunit;
 
 namespace Unimake.Test.Formatters
@@ -8,12 +7,18 @@ namespace Unimake.Test.Formatters
     {
         #region Public Methods
 
-        [Fact]
-        public void CNPJFormat()
+        [Theory]
+        [InlineData("27035298000121", "27.035.298/0001-21", false)]
+        [InlineData("035298000121", "00.035.298/0001-21", false)]
+        [InlineData("AABCD298000121", "AA.BCD.298/0001-21", false)]
+        [InlineData("27.035.298/0001-21", "27035298000121", true)]
+        [InlineData("00.035.298/0001-21", "00035298000121", true)]
+        [InlineData("035.298/0001-21", "00035298000121", true)]
+        [InlineData("AA.BCD.298/0001-21", "AABCD298000121", true)]
+        public void CNPJFormat(string cnpj, string expected, bool returnWithoutFormatting)
         {
-            Debug.WriteLine(CNPJFormatter.Format("27035298000121")); //Retorna CNPJ numérico formatado
-            Debug.WriteLine(CNPJFormatter.Format("AABCD298000121")); //Retorna CNPJ Alfanumérico formatado
-            Debug.WriteLine(CNPJFormatter.Format("27.035.298/0001-21", true)); //Retorna CNPJ sem formatação
+            cnpj = CNPJFormatter.Format(cnpj, returnWithoutFormatting);
+            Assert.Equal(expected, cnpj);
         }
 
         #endregion Public Methods
