@@ -1,16 +1,19 @@
 # 🚨 Breaking Changes
 
-## Versão 20250320.359.0
-https://www.nuget.org/packages/Unimake.Utils/20250414.1142.52
+## Versão 20250429.140.43
 
-Nesta atualização, foram feitas diversas mudanças significativas que podem impactar projetos que utilizam este pacote.
+[Unimake.Utils 20250429.140.43 no NuGet](https://www.nuget.org/packages/Unimake.Utils/20250429.140.43)
 
-## ✏️ Alterações
+⚠️ Atenção: esta atualização traz alterações importantes que podem impactar projetos que utilizam este pacote.
 
-Foi alterado o seguinte componente:
+## ✏️ Principais alterações
 
-- Adaptado CNPJ.Format para aceitar novo formato do CNPJ alfanumérico. 
+- Atualização no método `CNPJ.Format` para suportar o novo formato de CNPJ alfanumérico, conforme exigência da Receita Federal a partir de julho de 2026.  
+    ➔ Saiba mais: [CNPJ Alfanumérico - Receita Federal](https://www.gov.br/receitafederal/pt-br/acesso-a-informacao/acoes-e-programas/programas-e-atividades/cnpj-alfanumerico)
+    
 
-Para mais informações e suporte, acesse: [https://unimake.com.br/suporte](https://unimake.com.br/suporte).
+## 📚 Mais informações
 
-Agradecemos pela compreensão e colaboração! 🚀
+Em caso de dúvidas ou problemas, consulte: [https://unimake.app/problems](https://unimake.app/problems).
+
+Agradecemos pela confiança e parceria! 🚀
