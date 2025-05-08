@@ -16,52 +16,11 @@ namespace Unimake.Validators
         #region Private Methods
 
         /// <summary>
-        /// Faz a validação do cnpj numérico
+        /// Faz a validação do CNPJ
         /// </summary>
         /// <param name="cnpj">valor para validação</param>
         /// <returns></returns>
-        private static bool ValidateNumericCnpj(string cnpj)
-        {
-            var baseCnpj = cnpj.Substring(0, 12);
-            var dvInformado = cnpj.Substring(cnpj.Length - 2);
-            var Mult = "543298765432";
-            var Controle = string.Empty;
-            var Digito = 0;
-
-            for (var j = 1; j < 3; j++)
-            {
-                var Soma = 0;
-
-                for (var i = 0; i < 12; i++)
-                {
-                    Soma += int.Parse(baseCnpj.Substring(i, 1)) * int.Parse(Mult.Substring(i, 1));
-                }
-
-                if (j == 2)
-                {
-                    Soma += (2 * Digito);
-                }
-
-                Digito = ((Soma * 10) % 11);
-
-                if (Digito == 10)
-                {
-                    Digito = 0;
-                }
-
-                Controle += Digito.ToString();
-                Mult = "654329876543";
-            }
-
-            return Controle == dvInformado;
-        }
-
-        /// <summary>
-        /// Faz a validação do CNPJ alfanumérico
-        /// </summary>
-        /// <param name="cnpj">valor para validação</param>
-        /// <returns></returns>
-        private static bool ValidateAlphanumericCnpj(string cnpj)
+        private static bool Validate(string cnpj)
         {
             var baseCnpj = cnpj.Substring(0, 12);
             var dvInformado = cnpj.Substring(12, 2);
@@ -86,28 +45,23 @@ namespace Unimake.Validators
             return $"{primeiroDV}{segundoDV}";
         }
 
-        private static int GetValueForCalculation(char c)
+        private static int GetValueForCalculation(char caractere)
         {
-            var ascii = (int)c;
+            caractere = char.ToUpper(caractere);
+            var ascii = (int)caractere;
 
-            if (char.IsDigit(c))
-                return ascii - 48;
-            else
-            {
-                c = char.ToUpper(c);
-                ascii = (int)c;
-                return ascii - 48;
-            }
+            return ascii - 48;
         }
 
         private static int CalculateDV(int[] valores, int[] pesos)
         {
             var soma = 0;
+
             for (int i = 0; i < valores.Length; i++)
                 soma += valores[i] * pesos[i];
 
             var resto = soma % 11;
-            return (resto == 0 || resto == 1) ? 0 : 11 - resto;
+            return (resto < 2) ? 0 : 11 - resto;
         }
 
         #endregion Private Methods
@@ -138,18 +92,14 @@ namespace Unimake.Validators
                 return false;
             }
 
-            var cleanCnpj = Regex.Replace(cnpj, @"[^a-zA-Z0-9]", "");
-
-            var count = cnpj[0];
+            var cleanCnpj = Regex.Replace(cnpj, "[^a-zA-Z0-9]", "");
 
             //Se todos os caracteres forem iguais, isso indica que o CNPJ é inválido
             //se tamanho for diferente de 14, é falso
             if (cleanCnpj.Length != 14 || cleanCnpj.All(c => c == cleanCnpj[0]))
                 return false;
 
-            var valid = cnpj.Any(char.IsLetter) ? ValidateAlphanumericCnpj(cleanCnpj) : ValidateNumericCnpj(cleanCnpj);
-
-            if (!valid)
+            if (!Validate(cleanCnpj))
                 return false;
 
             cnpj = formatted ? Formatters.CNPJFormatter.Format(cleanCnpj) : cleanCnpj;
