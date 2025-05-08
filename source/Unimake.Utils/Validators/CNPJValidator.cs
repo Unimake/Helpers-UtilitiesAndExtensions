@@ -22,8 +22,8 @@ namespace Unimake.Validators
         /// <returns></returns>
         private static bool ValidateNumericCnpj(string cnpj)
         {
-            var Cnpj_1 = cnpj.Substring(0, 12);
-            var Cnpj_2 = cnpj.Substring(cnpj.Length - 2);
+            var baseCnpj = cnpj.Substring(0, 12);
+            var dvInformado = cnpj.Substring(cnpj.Length - 2);
             var Mult = "543298765432";
             var Controle = string.Empty;
             var Digito = 0;
@@ -34,7 +34,7 @@ namespace Unimake.Validators
 
                 for (var i = 0; i < 12; i++)
                 {
-                    Soma += int.Parse(Cnpj_1.Substring(i, 1)) * int.Parse(Mult.Substring(i, 1));
+                    Soma += int.Parse(baseCnpj.Substring(i, 1)) * int.Parse(Mult.Substring(i, 1));
                 }
 
                 if (j == 2)
@@ -53,7 +53,7 @@ namespace Unimake.Validators
                 Mult = "654329876543";
             }
 
-            return Controle == Cnpj_2;
+            return Controle == dvInformado;
         }
 
         /// <summary>
