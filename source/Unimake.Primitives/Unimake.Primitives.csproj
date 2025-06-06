@@ -9,8 +9,8 @@
 		<PackageProjectUrl>https://github.com/Unimake/Helpers-UtilitiesAndExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Unimake/Helpers-UtilitiesAndExtensions</RepositoryUrl>
 		<PackageTags>unimake;Utils;helpers;utilities</PackageTags>
-		<AssemblyVersion>2025.06.02.1612</AssemblyVersion>
-		<Version>20250602.1612.56</Version>
+		<AssemblyVersion>2025.06.06.0122</AssemblyVersion>
+		<Version>20250606.0122.33</Version>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
 		<RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 		<Description>Utilitários, Helpers, Formatters, Validadores.</Description>
@@ -32,7 +32,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.5" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.11.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.0" />
 	</ItemGroup>
 
 </Project>

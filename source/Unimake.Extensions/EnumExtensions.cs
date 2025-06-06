@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 namespace System
 {
@@ -112,7 +113,26 @@ namespace System
         /// <returns>Retorna <c>true</c> se o valor for um valor válido do enum, caso contrário, <c>false</c></returns>
         public static bool IsValid(this Enum value)
         {
-            return value != null && Enum.IsDefined(value.GetType(), value);
+            if(value is null)
+            {
+                return false;
+            }
+
+            var type = value.GetType();
+            var valueAsLong = Convert.ToInt64(value);
+            var hasFlags = type.GetCustomAttribute<FlagsAttribute>() != null;
+
+            if(hasFlags)
+            {
+                var allDefinedFlags = Enum.GetValues(type)
+                                           .Cast<Enum>()
+                                           .Select(Convert.ToInt64)
+                                           .Aggregate(0L, (current, v) => current | v);
+
+                return (valueAsLong & ~allDefinedFlags) == 0;
+            }
+
+            return Enum.IsDefined(type, value);
         }
 
         /// <summary>

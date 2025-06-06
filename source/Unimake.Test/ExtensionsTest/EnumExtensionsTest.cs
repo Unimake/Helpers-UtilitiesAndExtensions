@@ -22,7 +22,6 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.ExtensionsTest
             CompositeNumbers = Value1 | Value4 | Value6,
             AllNumbers = Value0 | Value1 | Value2 | Value3 | Value4 | Value5 | Value6
         }
-
         public enum EnumValueTest
         {
             Value0,
@@ -33,10 +32,56 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.ExtensionsTest
             Value5,
             Value6
         }
+        public enum TestEnum
+        {
+            Zero = 0,
+            One = 1,
+            Two = 2,
+            Three = 3
+        }
+
+        [Flags]
+        public enum TestFlags : short
+        {
+            None = 0,
+            A = 1,
+            B = 2,
+            C = 4,
+            D = 8
+        }
 
         #endregion Public Enums
 
         #region Public Methods
+
+        [Fact]
+        public void IsValid_Should_ReturnFalse_ForNull()
+        {
+            Enum value = null;
+            Assert.False(value.IsValid());
+        }
+
+        [Theory]
+        [InlineData(TestFlags.A, true)]
+        [InlineData(TestFlags.B | TestFlags.C, true)]
+        [InlineData((TestFlags)15, true)] // A | B | C | D
+        [InlineData((TestFlags)16, false)] // Bit inválido
+        [InlineData((TestFlags)0, true)] // None
+        [InlineData((TestFlags)99, false)]
+        public void IsValid_Should_Validate_FlagsEnums(TestFlags value, bool expected)
+        {
+            Assert.Equal(expected, value.IsValid());
+        }
+
+        [Theory]
+        [InlineData(TestEnum.One, true)]
+        [InlineData(TestEnum.Three, true)]
+        [InlineData((TestEnum)99, false)]
+        [InlineData((TestEnum)0, true)]
+        public void IsValid_Should_Validate_RegularEnums(TestEnum value, bool expected)
+        {
+            Assert.Equal(expected, value.IsValid());
+        }
 
         [Fact]
         public void JoinAsIntegerTest()
