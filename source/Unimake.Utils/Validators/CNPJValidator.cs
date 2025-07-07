@@ -25,7 +25,7 @@ namespace Unimake.Validators
             var baseCnpj = cnpj.Substring(0, 12);
             var dvInformado = cnpj.Substring(12, 2);
 
-            if (baseCnpj.Length != 12)
+            if(baseCnpj.Length != 12)
                 return false;
 
             var dvCalculado = CalculateDigitsVerifiers(baseCnpj);
@@ -57,7 +57,7 @@ namespace Unimake.Validators
         {
             var soma = 0;
 
-            for (int i = 0; i < valores.Length; i++)
+            for(int i = 0; i < valores.Length; i++)
                 soma += valores[i] * pesos[i];
 
             var resto = soma % 11;
@@ -81,9 +81,9 @@ namespace Unimake.Validators
         /// for verdadeiro e o o valor informado em <paramref name="cpf"/> for nulo ou vazio</returns>
         public static bool Validate(ref string cnpj, bool allowNullOrEmpty = true, bool formatted = false)
         {
-            if (string.IsNullOrWhiteSpace(cnpj))
+            if(string.IsNullOrWhiteSpace(cnpj))
             {
-                if (allowNullOrEmpty)
+                if(allowNullOrEmpty)
                 {
                     cnpj = "";
                     return true;
@@ -96,10 +96,10 @@ namespace Unimake.Validators
 
             //Se todos os caracteres forem iguais, isso indica que o CNPJ é inválido
             //se tamanho for diferente de 14, é falso
-            if (cleanCnpj.Length != 14 || cleanCnpj.All(c => c == cleanCnpj[0]))
+            if(cleanCnpj.Length != 14 || cleanCnpj.All(c => c == cleanCnpj[0]))
                 return false;
 
-            if (!Validate(cleanCnpj))
+            if(!Validate(cleanCnpj))
                 return false;
 
             cnpj = formatted ? Formatters.CNPJFormatter.Format(cleanCnpj) : cleanCnpj;

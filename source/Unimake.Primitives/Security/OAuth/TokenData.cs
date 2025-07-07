@@ -63,6 +63,12 @@ namespace Unimake.Primitives.Security.OAuth
         public static implicit operator string(TokenData rhs) => rhs.ToString();
 
         /// <summary>
+        /// Converte uma string em um <see cref="TokenData"/>
+        /// </summary>
+        /// <param name="rhs">Tipo para converter</param>
+        public static implicit operator TokenData(string rhs) => rhs.ToString();
+
+        /// <summary>
         /// Retorna verdadeiro se o <see cref="AccessToken"/> não estiver vazio e não estiver expirado
         /// </summary>
         /// <returns></returns>

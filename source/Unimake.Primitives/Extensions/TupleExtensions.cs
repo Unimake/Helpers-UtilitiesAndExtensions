@@ -70,7 +70,8 @@ namespace System
                     {
                         //do nothing
                     }
-                };
+                }
+                ;
             }
 
             return result;
