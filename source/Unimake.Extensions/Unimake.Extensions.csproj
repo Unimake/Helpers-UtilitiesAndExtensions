@@ -5,17 +5,19 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Company>Unimake Software</Company>
 		<Authors>Unimake Software</Authors>
-		<Copyright>$(Authors) $([System.DateTime]::Now.Year) �</Copyright>
+		<Copyright>$(Authors) $([System.DateTime]::Now.Year) ©</Copyright>
 		<PackageProjectUrl>https://github.com/Unimake/Helpers-UtilitiesAndExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Unimake/Helpers-UtilitiesAndExtensions</RepositoryUrl>
 		<PackageTags>unimake;extensions;helpers;utilities</PackageTags>
-		<AssemblyVersion>2025.07.07.1628</AssemblyVersion>
-		<Version>20250707.1628.41</Version>
+		<AssemblyVersion>2025.07.11.1902</AssemblyVersion>
+		<Version>20250711.1902.25</Version>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
 		<ApplicationIcon>unimake.ico</ApplicationIcon>
 		<PackageIcon>unimake.png</PackageIcon>
 		<RootNamespace>$(MSBuildProjectName.Replace(" ", "_").Substring(0,7))</RootNamespace>
-		<Description>Extens�es diversas para strings, objetos, refactoring.</Description>
+		<Description>Extensões diversas para strings, objetos, refactoring.</Description>
+		<Title>Unimake.Extensions</Title>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -26,6 +28,10 @@
 		<None Include="..\..\resources\image\unimake.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\readme.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
 </Project>

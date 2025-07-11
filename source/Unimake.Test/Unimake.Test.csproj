@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\Files\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Unimake.Cryptography\Unimake.Cryptography.csproj" />
     <ProjectReference Include="..\Unimake.Extensions\Unimake.Extensions.csproj" />
     <ProjectReference Include="..\Unimake.Primitives\Unimake.Primitives.csproj" />
@@ -33,10 +29,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Assets\Files\danfeview.webp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Files\PDFFile.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Files\TXTFile.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Files\unimake.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Files\word.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Files\ZIP.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
