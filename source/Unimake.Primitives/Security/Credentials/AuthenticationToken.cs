@@ -61,6 +61,11 @@ namespace Unimake.Primitives.Security.Credentials
         /// </summary>
         public string Username { get; set; }
 
+        /// <summary>
+        /// Token utilizado para renovar a autorização (refresh token)
+        /// </summary>
+        public string RefreshToken { get; set; }
+
         #endregion Public Properties
 
         #region Public Constructors
@@ -95,6 +100,7 @@ namespace Unimake.Primitives.Security.Credentials
             Username = username;
             Password = password;
             Scope = scope;
+            RefreshToken = string.Empty;
 
             Validate();
         }
