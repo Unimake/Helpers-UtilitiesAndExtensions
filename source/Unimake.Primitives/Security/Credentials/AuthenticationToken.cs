@@ -47,6 +47,11 @@ namespace Unimake.Primitives.Security.Credentials
         public string Password { get; set; }
 
         /// <summary>
+        /// Token utilizado para renovar a autorização (refresh token)
+        /// </summary>
+        public string RefreshToken { get; set; }
+
+        /// <summary>
         /// Define o escopo desta autorização
         /// </summary>
         public string Scope { get; set; }
@@ -61,11 +66,6 @@ namespace Unimake.Primitives.Security.Credentials
         /// </summary>
         public string Username { get; set; }
 
-        /// <summary>
-        /// Token utilizado para renovar a autorização (refresh token)
-        /// </summary>
-        public string RefreshToken { get; set; }
-
         #endregion Public Properties
 
         #region Public Constructors
@@ -79,6 +79,7 @@ namespace Unimake.Primitives.Security.Credentials
         /// <param name="username">Se o <paramref name="grantType"/> for do tipo <see cref="GrantType.Password"/>, este valor deve ser preenchido com o nome de usuário fornecido pela empresa.</param>
         /// <param name="password">Se o <paramref name="grantType"/> for do tipo <see cref="GrantType.Password"/>, este valor deve ser preenchido com a senha fornecida pela empresa.</param>
         /// <param name="scope">Define o escopo da autenticação. Informe o escopo definido pela empresa.</param>
+        /// <param name="refreshToken">Token utilizado para renovar a autorização (refresh token)</param>
         /// <remarks>
         /// A exceção <see cref="ArgumentException"/> será lançada se:<br/>
         /// O tipo <see cref="GrantType"/> for <see cref="GrantType.ClientCredentials"/>, e as propriedades <see cref="AppId"/> ou <see cref="ClientId"/> e <see cref="Secret"/> não estiverem preenchidas.<br/>
@@ -92,7 +93,8 @@ namespace Unimake.Primitives.Security.Credentials
                                    string secret = "",
                                    string username = "",
                                    string password = "",
-                                   string scope = "")
+                                   string scope = "",
+                                   string refreshToken = "")
         {
             _grantType = grantType;
             AppId = clientOrAppId;
@@ -100,7 +102,7 @@ namespace Unimake.Primitives.Security.Credentials
             Username = username;
             Password = password;
             Scope = scope;
-            RefreshToken = string.Empty;
+            RefreshToken = refreshToken;
 
             Validate();
         }
