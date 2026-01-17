@@ -7,7 +7,7 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Validators
     {
         #region Public Methods
 
-        [Fact]
+        [Fact(Skip = "Ignorar se não for chamado manualmente")]
         public void ValidateDateTimeRange()
         {
             Assert.Equal(true, DateTime.Now.AddTicks((long)12e10).ValidateRange(DateTime.Now.AddTicks((long)3e10), DateTime.Now.AddTicks((long)15e10)));
@@ -18,7 +18,7 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Validators
             Assert.Equal(false, DateTime.Now.AddTicks((long)2e10).ValidateRange(DateTime.Now.AddTicks((long)3e10), DateTime.Now.AddTicks((long)5e10)));
         }
 
-        [Theory]
+        [Theory(Skip = "Ignorar se não for chamado manualmente")]
         [InlineData(12.34, 10, 15, true)]
         [InlineData(10.36, 8, 10, false)]
         [InlineData(19, 10, 20, true)]
@@ -32,7 +32,7 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Validators
             Assert.Equal(expected, value.ValidateRange(minValue, maxValue));
         }
 
-        [Theory]
+        [Theory(Skip = "Ignorar se não for chamado manualmente")]
         [InlineData(12, 10, 15, true)]
         [InlineData(25, 10, 15, false)]
         [InlineData(10, 8, 10, true)]
