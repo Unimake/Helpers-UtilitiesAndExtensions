@@ -81,7 +81,7 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Net
             }
 
             testUrls = new string[] {
-                "http://www.unimake.com",
+                "http://www.unimakexx.com",
                 "3.3.3.3",
             };
 
