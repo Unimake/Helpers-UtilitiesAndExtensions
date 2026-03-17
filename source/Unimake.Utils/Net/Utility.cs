@@ -139,11 +139,16 @@ namespace Unimake.Net
             }
 
             var retorno = false;
-            var timeoutMilleSeconds = (timeoutInSeconds * 750); //não usar x 1000ms
+            var timeoutMilleSeconds = (timeoutInSeconds * 1000 * testUrls.Length);
             var watch = Stopwatch.StartNew();
 
             foreach(var url in testUrls)
             {
+                if(string.IsNullOrWhiteSpace(url))
+                {
+                    continue;
+                }
+
                 try
                 {
                     retorno = url.StartsWith("http", StringComparison.InvariantCultureIgnoreCase) ? TestHttpConnection(url, null, timeoutInSeconds, proxy) : PingHost(url, timeoutInSeconds);
@@ -158,7 +163,6 @@ namespace Unimake.Net
                 {
                     break;
                 }
-
             }
 
             return retorno;
@@ -250,8 +254,17 @@ namespace Unimake.Net
                 httpWebRequest.Timeout = timeoutInSeconds * 1000;
                 httpWebRequest.ReadWriteTimeout = timeoutInSeconds * 1000;
 
-                var statusCode = (httpWebRequest.GetResponse() as HttpWebResponse).StatusCode;
-                return statusCode == HttpStatusCode.OK || statusCode == HttpStatusCode.NoContent;
+                using(var response = (HttpWebResponse)httpWebRequest.GetResponse())
+                {
+                    return response != null;
+                }
+            }
+            catch(WebException ex)
+            {
+                using(var response = ex.Response as HttpWebResponse)
+                {
+                    return response != null;
+                }
             }
             catch
             {
