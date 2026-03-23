@@ -15,23 +15,6 @@ namespace Unimake.Validators
 
         #region Private Methods
 
-        /// <summary>
-        /// Faz a validação do CNPJ
-        /// </summary>
-        /// <param name="cnpj">valor para validação</param>
-        /// <returns></returns>
-        private static bool Validate(string cnpj)
-        {
-            var baseCnpj = cnpj.Substring(0, 12);
-            var dvInformado = cnpj.Substring(12, 2);
-
-            if(baseCnpj.Length != 12)
-                return false;
-
-            var dvCalculado = CalculateDigitsVerifiers(baseCnpj);
-            return dvCalculado == dvInformado;
-        }
-
         private static string CalculateDigitsVerifiers(string baseCnpj)
         {
             var valores = baseCnpj.Select(GetValueForCalculation).ToArray();
@@ -45,14 +28,6 @@ namespace Unimake.Validators
             return $"{primeiroDV}{segundoDV}";
         }
 
-        private static int GetValueForCalculation(char caractere)
-        {
-            caractere = char.ToUpper(caractere);
-            var ascii = (int)caractere;
-
-            return ascii - 48;
-        }
-
         private static int CalculateDV(int[] valores, int[] pesos)
         {
             var soma = 0;
@@ -64,9 +39,45 @@ namespace Unimake.Validators
             return (resto < 2) ? 0 : 11 - resto;
         }
 
+        private static int GetValueForCalculation(char caractere)
+        {
+            caractere = char.ToUpper(caractere);
+            var ascii = (int)caractere;
+
+            return ascii - 48;
+        }
+
         #endregion Private Methods
 
         #region Public Methods
+
+        /// <summary>
+        /// Faz a validação do CNPJ
+        /// </summary>
+        /// <param name="cnpj">valor para validação</param>
+        /// <param name="allowNullOrEmpty">Se true, permite nulo ou em branco</param>
+        /// <returns></returns>
+        public static bool Validate(string cnpj, bool allowNullOrEmpty = false)
+        {
+            if(string.IsNullOrWhiteSpace(cnpj))
+            {
+                if(allowNullOrEmpty)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            var baseCnpj = cnpj.Substring(0, 12);
+            var dvInformado = cnpj.Substring(12, 2);
+
+            if(baseCnpj.Length != 12)
+                return false;
+
+            var dvCalculado = CalculateDigitsVerifiers(baseCnpj);
+            return dvCalculado == dvInformado;
+        }
 
         /// <summary>
         /// Analisa o CNPJ informado e verifica se é válido.
@@ -99,7 +110,7 @@ namespace Unimake.Validators
             if(cleanCnpj.Length != 14 || cleanCnpj.All(c => c == cleanCnpj[0]))
                 return false;
 
-            if(!Validate(cleanCnpj))
+            if(!Validate(cleanCnpj, allowNullOrEmpty))
                 return false;
 
             cnpj = formatted ? Formatters.CNPJFormatter.Format(cleanCnpj) : cleanCnpj;
