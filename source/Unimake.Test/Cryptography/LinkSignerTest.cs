@@ -7,7 +7,6 @@ using System.Threading;
 using Unimake.Cryptography.Enumerations;
 using Unimake.Cryptography.Exceptions;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace EBank.Solutions.EBoleto.Test.PDF
 {
