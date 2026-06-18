@@ -1,5 +1,20 @@
 # 🚨 Breaking Changes
 
+## Versão: 20260618.1051.35
+
+⚠️ Atenção: esta atualização traz alterações importantes que podem impactar projetos que utilizam este pacote.
+
+[Unimake.Primitives 20260618.1051.35 no NuGet](https://www.nuget.org/packages/Unimake.Primitives/20260618.1051.35)
+
+Refatoração das estruturas de credenciais e adição de testes unitários.
+
+- Refatorado UsernameAndPassword para UserCredentials com propriedades que lidam com valores nulos. 
+- Introduzido as estruturas ClientCredentials e RefreshTokenCredentials, incluindo conversões implícitas para tokens de atualização. 
+- Adicionado testes unitários para todas as estruturas de credenciais. 
+
+### [BREAKING CHANGES] 
+- Removido o tipo `UsernameAndPassword` obsoleto e atualizamos os namespaces e usings conforme necessário. Use `UserCredentials`
+
 ## Versão 20250429.140.43
 
 [Unimake.Utils 20250429.140.43 no NuGet](https://www.nuget.org/packages/Unimake.Utils/20250429.140.43)

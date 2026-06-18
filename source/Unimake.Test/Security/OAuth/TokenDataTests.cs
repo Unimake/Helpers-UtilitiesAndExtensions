@@ -7,6 +7,7 @@ using Unimake.Primitives.Security.OAuth;
 using Xunit;
 
 namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Security.OAuth;
+
 public class TokenDataTests
 {
     #region Private Methods
