@@ -1,3 +1,5 @@
+[![Discord](https://img.shields.io/discord/936980012257652788?label=Discord&logo=discord&logoColor=white&color=5865F2)](https://discord.gg/JhCEhbfK)
+
 # Helpers, Utilities and Extensions
 
 Bem-vindo ao repositório **Helpers, Utilities and Extensions** da **Unimake**!
@@ -6,7 +8,8 @@ Este projeto reúne um conjunto de ferramentas essenciais para facilitar o desen
 
 ## Projetos
 
-### 1. Unimake.Extensions
+### 1. Unimake.Extensions [![NuGet](https://img.shields.io/nuget/v/Unimake.Extensions.svg?logo=nuget)](https://www.nuget.org/packages/Unimake.Extensions)
+
 🔸*nuget: https://www.nuget.org/packages/Unimake.Extensions*
 
 Contém métodos de extensão para vários tipos comuns, como:
@@ -20,7 +23,8 @@ Contém métodos de extensão para vários tipos comuns, como:
 Essas extensões visam tornar o código mais limpo e produtivo.
 
 ---
-### 2. Unimake.Utils
+### 2. Unimake.Utils [![NuGet](https://img.shields.io/nuget/v/Unimake.Utils.svg?logo=nuget)](https://www.nuget.org/packages/Unimake.Utils)
+
 🔸*nuget: https://www.nuget.org/packages/Unimake.Utils*
 
 Inclui classes utilitárias e helpers diversos, como:
@@ -30,7 +34,8 @@ Inclui classes utilitárias e helpers diversos, como:
 - **Helpers gerais** para uso em diferentes cenários.
 
 ---
-### 3. Unimake.Cryptography
+### 3. Unimake.Cryptography [![NuGet](https://img.shields.io/nuget/v/Unimake.Cryptography.svg?logo=nuget)](https://www.nuget.org/packages/Unimake.Cryptography)
+
 🔸*nuget: https://www.nuget.org/packages/Unimake.Cryptography*
 
 Concentra tudo relacionado à segurança e criptografia, incluindo:
@@ -42,7 +47,8 @@ Concentra tudo relacionado à segurança e criptografia, incluindo:
 - OAUTH
 
 ---
-### 4. Unimake.Primitives
+### 4. Unimake.Primitives [![NuGet](https://img.shields.io/nuget/v/Unimake.Primitives.svg?logo=nuget)](https://www.nuget.org/packages/Unimake.Primitives)
+
 🔸*nuget: https://www.nuget.org/packages/Unimake.Primitives*
 
 Agrupa tipos primitivos e estruturas que são amplamente reutilizadas em vários projetos Unimake, promovendo padronização e reuso.
