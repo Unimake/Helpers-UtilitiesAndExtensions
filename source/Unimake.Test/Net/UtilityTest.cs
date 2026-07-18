@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
 using Unimake.Net;
 using Xunit;
 
@@ -8,6 +9,18 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Net
     public class UtilityTest
     {
         #region Public Methods
+
+        [Theory]
+        [InlineData(WebExceptionStatus.NameResolutionFailure, HttpConnectionFailureType.Dns)]
+        [InlineData(WebExceptionStatus.ConnectFailure, HttpConnectionFailureType.Connection)]
+        [InlineData(WebExceptionStatus.Timeout, HttpConnectionFailureType.Timeout)]
+        [InlineData(WebExceptionStatus.TrustFailure, HttpConnectionFailureType.Tls)]
+        [InlineData(WebExceptionStatus.SecureChannelFailure, HttpConnectionFailureType.Tls)]
+        [InlineData(WebExceptionStatus.ProxyNameResolutionFailure, HttpConnectionFailureType.Proxy)]
+        [InlineData(WebExceptionStatus.ProtocolError, HttpConnectionFailureType.Http)]
+        [InlineData(WebExceptionStatus.Success, HttpConnectionFailureType.None)]
+        public void ClassifyWebExceptionStatusTest(WebExceptionStatus status, HttpConnectionFailureType expected) =>
+            Assert.Equal(expected, Utility.ClassifyWebExceptionStatus(status));
 
         [Theory]
         [InlineData(1)]
