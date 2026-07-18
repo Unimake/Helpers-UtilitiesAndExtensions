@@ -235,6 +235,32 @@ namespace Unimake.Net
         /// <returns>Se a URL está respondendo, ou não</returns>
         public static bool TestHttpConnection(string url, X509Certificate2 certificate = null, int timeoutInSeconds = 3, IWebProxy proxy = null, string method = "GET")
         {
+            return TestHttpConnectionDetailed(url, certificate, timeoutInSeconds, proxy, method).ResponseReceived;
+        }
+
+        /// <summary>
+        /// Testa uma conexão HTTP ou HTTPS preservando status, duração e causa técnica da falha.
+        /// </summary>
+        /// <param name="url">URL a ser testada.</param>
+        /// <param name="certificate">Certificado de cliente opcional.</param>
+        /// <param name="timeoutInSeconds">Tempo limite em segundos.</param>
+        /// <param name="proxy">Proxy opcional.</param>
+        /// <param name="method">Método HTTP.</param>
+        /// <returns>Resultado detalhado da tentativa.</returns>
+        public static HttpConnectionResult TestHttpConnectionDetailed(string url, X509Certificate2 certificate = null, int timeoutInSeconds = 3, IWebProxy proxy = null, string method = "GET")
+        {
+            if(timeoutInSeconds <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(timeoutInSeconds));
+            }
+
+            var watch = Stopwatch.StartNew();
+            var result = new HttpConnectionResult
+            {
+                FailureType = HttpConnectionFailureType.Unknown,
+                WebExceptionStatus = WebExceptionStatus.UnknownError
+            };
+
             try
             {
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -256,19 +282,70 @@ namespace Unimake.Net
 
                 using(var response = (HttpWebResponse)httpWebRequest.GetResponse())
                 {
-                    return response != null;
+                    FillResponse(result, response);
                 }
             }
             catch(WebException ex)
             {
                 using(var response = ex.Response as HttpWebResponse)
                 {
-                    return response != null;
+                    result.WebExceptionStatus = ex.Status;
+                    result.ErrorMessage = ex.Message;
+                    result.FailureType = ClassifyWebExceptionStatus(ex.Status);
+                    FillResponse(result, response);
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                return false;
+                result.ErrorMessage = ex.Message;
+                result.FailureType = HttpConnectionFailureType.Unknown;
+            }
+
+            watch.Stop();
+            result.DurationMilliseconds = watch.ElapsedMilliseconds;
+            return result;
+        }
+
+        private static void FillResponse(HttpConnectionResult result, HttpWebResponse response)
+        {
+            if(response == null)
+            {
+                return;
+            }
+
+            result.ResponseReceived = true;
+            result.StatusCode = (int)response.StatusCode;
+            result.IsSuccessStatusCode = result.StatusCode >= 200 && result.StatusCode <= 299;
+            result.FailureType = result.IsSuccessStatusCode ? HttpConnectionFailureType.None : HttpConnectionFailureType.Http;
+            result.WebExceptionStatus = result.IsSuccessStatusCode ? WebExceptionStatus.Success : WebExceptionStatus.ProtocolError;
+        }
+
+        /// <summary>
+        /// Normaliza um status de <see cref="WebException"/> em uma categoria estável.
+        /// </summary>
+        /// <param name="status">Status técnico da exceção.</param>
+        /// <returns>Categoria normalizada.</returns>
+        public static HttpConnectionFailureType ClassifyWebExceptionStatus(WebExceptionStatus status)
+        {
+            switch(status)
+            {
+                case WebExceptionStatus.NameResolutionFailure:
+                    return HttpConnectionFailureType.Dns;
+                case WebExceptionStatus.ConnectFailure:
+                    return HttpConnectionFailureType.Connection;
+                case WebExceptionStatus.Timeout:
+                    return HttpConnectionFailureType.Timeout;
+                case WebExceptionStatus.TrustFailure:
+                case WebExceptionStatus.SecureChannelFailure:
+                    return HttpConnectionFailureType.Tls;
+                case WebExceptionStatus.ProxyNameResolutionFailure:
+                    return HttpConnectionFailureType.Proxy;
+                case WebExceptionStatus.ProtocolError:
+                    return HttpConnectionFailureType.Http;
+                case WebExceptionStatus.Success:
+                    return HttpConnectionFailureType.None;
+                default:
+                    return HttpConnectionFailureType.Unknown;
             }
         }
 
