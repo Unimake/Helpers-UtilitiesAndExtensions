@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Unimake.Net;
 using Xunit;
 
@@ -13,6 +17,10 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Net
         [Theory]
         [InlineData(WebExceptionStatus.NameResolutionFailure, HttpConnectionFailureType.Dns)]
         [InlineData(WebExceptionStatus.ConnectFailure, HttpConnectionFailureType.Connection)]
+        [InlineData(WebExceptionStatus.ConnectionClosed, HttpConnectionFailureType.Connection)]
+        [InlineData(WebExceptionStatus.KeepAliveFailure, HttpConnectionFailureType.Connection)]
+        [InlineData(WebExceptionStatus.ReceiveFailure, HttpConnectionFailureType.Connection)]
+        [InlineData(WebExceptionStatus.SendFailure, HttpConnectionFailureType.Connection)]
         [InlineData(WebExceptionStatus.Timeout, HttpConnectionFailureType.Timeout)]
         [InlineData(WebExceptionStatus.TrustFailure, HttpConnectionFailureType.Tls)]
         [InlineData(WebExceptionStatus.SecureChannelFailure, HttpConnectionFailureType.Tls)]
@@ -21,6 +29,110 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Net
         [InlineData(WebExceptionStatus.Success, HttpConnectionFailureType.None)]
         public void ClassifyWebExceptionStatusTest(WebExceptionStatus status, HttpConnectionFailureType expected) =>
             Assert.Equal(expected, Utility.ClassifyWebExceptionStatus(status));
+
+        [Theory]
+        [InlineData(200, true, HttpConnectionFailureType.None, WebExceptionStatus.Success)]
+        [InlineData(404, false, HttpConnectionFailureType.Http, WebExceptionStatus.ProtocolError)]
+        [InlineData(500, false, HttpConnectionFailureType.Http, WebExceptionStatus.ProtocolError)]
+        public void TestHttpConnectionDetailedPreservaRespostaHttp(int statusCode, bool sucesso,
+            HttpConnectionFailureType falha, WebExceptionStatus webExceptionStatus)
+        {
+            var resultado = ComServidorHttp(statusCode,
+                url => Utility.TestHttpConnectionDetailed(url, timeoutInSeconds: 2));
+
+            Assert.True(resultado.ResponseReceived);
+            Assert.Equal(statusCode, resultado.StatusCode);
+            Assert.Equal(sucesso, resultado.IsSuccessStatusCode);
+            Assert.Equal(falha, resultado.FailureType);
+            Assert.Equal(webExceptionStatus, resultado.WebExceptionStatus);
+            Assert.True(resultado.DurationMilliseconds >= 0);
+        }
+
+        [Fact]
+        public void TestHttpConnectionMantemCompatibilidadeParaErroHttp()
+        {
+            var respondeu = ComServidorHttp(500,
+                url => Utility.TestHttpConnection(url, timeoutInSeconds: 2));
+
+            Assert.True(respondeu);
+        }
+
+        [Fact]
+        public void TestHttpConnectionDetailedClassificaTimeoutReal()
+        {
+            var listener = new TcpListener(IPAddress.Loopback, 0);
+            listener.Start();
+            var port = ((IPEndPoint)listener.LocalEndpoint).Port;
+            var servidor = Task.Run(() =>
+            {
+                using(var cliente = listener.AcceptTcpClient())
+                {
+                    Thread.Sleep(1500);
+                }
+            });
+
+            try
+            {
+                var resultado = Utility.TestHttpConnectionDetailed(
+                    $"http://127.0.0.1:{port}/", timeoutInSeconds: 1);
+
+                Assert.False(resultado.ResponseReceived);
+                Assert.Equal(HttpConnectionFailureType.Timeout, resultado.FailureType);
+                Assert.Equal(WebExceptionStatus.Timeout, resultado.WebExceptionStatus);
+                Assert.True(resultado.DurationMilliseconds >= 900);
+            }
+            finally
+            {
+                listener.Stop();
+                servidor.GetAwaiter().GetResult();
+            }
+        }
+
+        [Fact]
+        public void TestHttpConnectionDetailedClassificaConexaoRecusada()
+        {
+            var listener = new TcpListener(IPAddress.Loopback, 0);
+            listener.Start();
+            var port = ((IPEndPoint)listener.LocalEndpoint).Port;
+            listener.Stop();
+
+            var resultado = Utility.TestHttpConnectionDetailed(
+                $"http://127.0.0.1:{port}/", timeoutInSeconds: 1);
+
+            Assert.False(resultado.ResponseReceived);
+            Assert.Equal(HttpConnectionFailureType.Connection, resultado.FailureType);
+            Assert.Equal(WebExceptionStatus.ConnectFailure, resultado.WebExceptionStatus);
+        }
+
+        private static T ComServidorHttp<T>(int statusCode, Func<string, T> executar)
+        {
+            var listener = new TcpListener(IPAddress.Loopback, 0);
+            listener.Start();
+            var port = ((IPEndPoint)listener.LocalEndpoint).Port;
+            var servidor = Task.Run(() =>
+            {
+                using(var cliente = listener.AcceptTcpClient())
+                using(var stream = cliente.GetStream())
+                {
+                    var buffer = new byte[4096];
+                    stream.Read(buffer, 0, buffer.Length);
+                    var resposta = Encoding.ASCII.GetBytes(
+                        $"HTTP/1.1 {statusCode} Teste\r\nContent-Length: 0\r\nConnection: close\r\n\r\n");
+                    stream.Write(resposta, 0, resposta.Length);
+                }
+            });
+
+            try
+            {
+                var resultado = executar($"http://127.0.0.1:{port}/");
+                servidor.GetAwaiter().GetResult();
+                return resultado;
+            }
+            finally
+            {
+                listener.Stop();
+            }
+        }
 
         [Theory]
         [InlineData(1)]

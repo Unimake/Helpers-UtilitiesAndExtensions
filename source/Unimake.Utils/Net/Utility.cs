@@ -332,6 +332,10 @@ namespace Unimake.Net
                 case WebExceptionStatus.NameResolutionFailure:
                     return HttpConnectionFailureType.Dns;
                 case WebExceptionStatus.ConnectFailure:
+                case WebExceptionStatus.ConnectionClosed:
+                case WebExceptionStatus.KeepAliveFailure:
+                case WebExceptionStatus.ReceiveFailure:
+                case WebExceptionStatus.SendFailure:
                     return HttpConnectionFailureType.Connection;
                 case WebExceptionStatus.Timeout:
                     return HttpConnectionFailureType.Timeout;
