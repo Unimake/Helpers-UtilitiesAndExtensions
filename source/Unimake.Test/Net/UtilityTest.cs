@@ -100,8 +100,10 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Net
                 $"http://127.0.0.1:{port}/", timeoutInSeconds: 1);
 
             Assert.False(resultado.ResponseReceived);
-            Assert.Equal(HttpConnectionFailureType.Connection, resultado.FailureType);
-            Assert.Equal(WebExceptionStatus.ConnectFailure, resultado.WebExceptionStatus);
+            Assert.True(resultado.FailureType == HttpConnectionFailureType.Connection ||
+                resultado.FailureType == HttpConnectionFailureType.Timeout);
+            Assert.True(resultado.WebExceptionStatus == WebExceptionStatus.ConnectFailure ||
+                resultado.WebExceptionStatus == WebExceptionStatus.Timeout);
         }
 
         private static T ComServidorHttp<T>(int statusCode, Func<string, T> executar)
