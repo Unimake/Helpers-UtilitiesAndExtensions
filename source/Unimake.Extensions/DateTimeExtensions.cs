@@ -51,6 +51,21 @@ namespace System
         public static DateTime EndOfDay(this DateTime date) => new DateTime(date.Year, date.Month, date.Day, 23, 59, 59);
 
         /// <summary>
+        /// Garante que a data seja um dia útil. Caso não seja, retorna o próximo dia útil.
+        /// </summary>
+        /// <param name="date">Data a ser verificada.</param>
+        /// <returns>Próximo dia útil.</returns>
+        public static DateTime EnsureBusinessDay(this DateTime date)
+        {
+            while(!date.IsBusinessDay())
+            {
+                date = date.AddDays(1);
+            }
+
+            return date;
+        }
+
+        /// <summary>
         /// Calcula o primeiro dia do mês da data informada
         /// </summary>
         /// <param name="dateTime">Data</param>
