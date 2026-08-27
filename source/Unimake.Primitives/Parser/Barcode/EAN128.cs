@@ -675,8 +675,8 @@ namespace Unimake.Primitives.Parser.Barcode
         /// </summary>
         public static bool HasCheckSum
         {
-            get => EAN128.hasCheckSum;
-            set => EAN128.hasCheckSum = value;
+            get => hasCheckSum;
+            set => hasCheckSum = value;
         }
 
         /// <summary>
@@ -684,8 +684,8 @@ namespace Unimake.Primitives.Parser.Barcode
         /// </summary>
         public static char GroutSeperator
         {
-            get => EAN128.groutSeperator;
-            set => EAN128.groutSeperator = value;
+            get => groutSeperator;
+            set => groutSeperator = value;
         }
 
         /// <summary>
@@ -693,8 +693,8 @@ namespace Unimake.Primitives.Parser.Barcode
         /// </summary>
         public static string EAN128StartCode
         {
-            get => EAN128.ean128StartCode;
-            set => EAN128.ean128StartCode = value;
+            get => ean128StartCode;
+            set => ean128StartCode = value;
         }
 
         static EAN128()

@@ -209,8 +209,8 @@ namespace System
                 value.GetType().IsNumeric())
             {
                 _ = decimal.TryParse(value.ToString(),
-                                        System.Globalization.NumberStyles.Any,
-                                        System.Globalization.NumberFormatInfo.InvariantInfo,
+                                        Globalization.NumberStyles.Any,
+                                        Globalization.NumberFormatInfo.InvariantInfo,
                                         out var result);
 
                 return result == 0;

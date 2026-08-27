@@ -5,7 +5,7 @@ namespace Unimake.Primitives.Enumerations
     /// <summary>
     /// Define o tipo de concessão que deverá ser realizada
     /// </summary>
-    [DefaultValue(GrantType.ClientCredentials)]
+    [DefaultValue(ClientCredentials)]
     public enum GrantType : short
     {
         /// <summary>

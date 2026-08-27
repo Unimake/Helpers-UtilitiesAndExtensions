@@ -48,7 +48,7 @@ namespace Unimake.Cryptography
                 }
             }
 
-            return System.Text.Encoding.Unicode.GetString(plainText);
+            return Encoding.Unicode.GetString(plainText);
         }
 
         /// <summary>

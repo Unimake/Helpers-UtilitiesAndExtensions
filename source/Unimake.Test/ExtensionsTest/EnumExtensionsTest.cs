@@ -22,6 +22,7 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.ExtensionsTest
             CompositeNumbers = Value1 | Value4 | Value6,
             AllNumbers = Value0 | Value1 | Value2 | Value3 | Value4 | Value5 | Value6
         }
+
         public enum EnumValueTest
         {
             Value0,
@@ -32,6 +33,7 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.ExtensionsTest
             Value5,
             Value6
         }
+
         public enum TestEnum
         {
             Zero = 0,
@@ -91,7 +93,7 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.ExtensionsTest
             var result = enumValues.JoinAsInteger();
             Assert.Equal(expected, result);
 
-            enumValues = new EnumValueTest[] { EnumValueTest.Value1, EnumValueTest.Value3, EnumValueTest.Value5 };
+            enumValues = [EnumValueTest.Value1, EnumValueTest.Value3, EnumValueTest.Value5];
             expected = "1,3,5";
             result = enumValues.JoinAsInteger();
             Assert.Equal(expected, result);
@@ -104,12 +106,12 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.ExtensionsTest
             result = enumFlags.JoinAsInteger();
             Assert.Equal(expected, result);
 
-            enumFlags = new EnumFlagTest[] { EnumFlagTest.Value4, EnumFlagTest.CompositeNumbers };
+            enumFlags = [EnumFlagTest.Value4, EnumFlagTest.CompositeNumbers];
             expected = "8,1,8,32";
             result = enumFlags.JoinAsInteger();
             Assert.Equal(expected, result);
 
-            enumFlags = new EnumFlagTest[] { EnumFlagTest.Value4, EnumFlagTest.CompositeNumbers, EnumFlagTest.Value6 };
+            enumFlags = [EnumFlagTest.Value4, EnumFlagTest.CompositeNumbers, EnumFlagTest.Value6];
             expected = "8,1,8,32,32";
             result = enumFlags.JoinAsInteger();
             Assert.Equal(expected, result);

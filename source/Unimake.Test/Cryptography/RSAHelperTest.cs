@@ -6,11 +6,6 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Cryptography
 {
     public class RSAHelperTest
     {
-        #region Private Methods
-
-
-        #endregion Private Methods
-
         #region Public Methods
 
         [Fact]

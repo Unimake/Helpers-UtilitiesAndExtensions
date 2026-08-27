@@ -221,7 +221,7 @@ namespace System.Http
 
                 if(urlEncodeValue)
                 {
-                    paramValue = System.Web.HttpUtility.UrlEncode(paramValue);
+                    paramValue = Web.HttpUtility.UrlEncode(paramValue);
                 }
 
                 sb.Append($"{separator}{value.Key}={paramValue}");

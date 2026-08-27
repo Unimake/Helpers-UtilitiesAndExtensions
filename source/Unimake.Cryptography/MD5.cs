@@ -40,13 +40,13 @@ namespace Unimake.Cryptography
 
             using(var md5 = System.Security.Cryptography.MD5.Create())
             {
-                Hash = Hash = BitConverter.ToString(md5.ComputeHash(ASCIIEncoding.Default.GetBytes(salt + text))).Replace("-", "").ToLower();
+                Hash = Hash = BitConverter.ToString(md5.ComputeHash(Encoding.Default.GetBytes(salt + text))).Replace("-", "").ToLower();
 
                 if(loop > 0)
                 {
                     for(var i = -1; i < loop; i++)
                     {
-                        Hash = Hash = BitConverter.ToString(md5.ComputeHash(ASCIIEncoding.Default.GetBytes(Hash))).Replace("-", "").ToLower();
+                        Hash = Hash = BitConverter.ToString(md5.ComputeHash(Encoding.Default.GetBytes(Hash))).Replace("-", "").ToLower();
                     }
                 }
             }

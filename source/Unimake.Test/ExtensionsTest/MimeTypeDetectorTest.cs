@@ -9,7 +9,7 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.ExtensionsTest
         #region Private Fields
 
         private static bool registered = false;
-        private byte[] UnknownBytes = new byte[] { 0xFD, 0xD5, 0xF2 };
+        private byte[] UnknownBytes = [0xFD, 0xD5, 0xF2];
 
         #endregion Private Fields
 
@@ -49,7 +49,7 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.ExtensionsTest
         {
             var path = Path.Combine(AppContext.BaseDirectory, "Assets", "Files", fileName);
             var fi = new System.IO.FileInfo(path);
-            var bytes = System.IO.File.ReadAllBytes(fi.FullName);
+            var bytes = File.ReadAllBytes(fi.FullName);
             var result = bytes.GetFileMimeTypeAndExtension();
 
             Assert.Equal(mimeType, result.MimeType);

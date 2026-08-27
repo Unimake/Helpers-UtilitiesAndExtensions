@@ -15,13 +15,21 @@ Write-Host "Nova versão gerada: AssemblyVersion=$assemblyVersion, Version=$pack
 
 function Start-Test {
     $testProjectPath = "Unimake.Test\Unimake.Test.csproj"
+    $logPath = Join-Path $PSScriptRoot "TestResults.log"
 
     try {
-        Write-Host "Executando testes unitários..."
-        $null = & dotnet test $testProjectPath /p:Configuration=Debug --no-build --verbosity normal
+        Write-Host "Compilando projeto de testes..."
+        & dotnet build $testProjectPath /p:Configuration=Debug 2>&1 | Tee-Object -FilePath $logPath
 
         if ($LASTEXITCODE -ne 0) {
-            throw "Testes falharam com código $LASTEXITCODE. Verifique o log."
+            throw "Falha ao compilar o projeto de testes. Verifique o log em $logPath."
+        }
+
+        Write-Host "Executando testes unitários..."
+        & dotnet test $testProjectPath /p:Configuration=Debug --no-build --verbosity normal 2>&1 | Tee-Object -FilePath $logPath -Append
+
+        if ($LASTEXITCODE -ne 0) {
+            throw "Testes falharam com código $LASTEXITCODE. Verifique o log em $logPath."
         }
     }
     catch {

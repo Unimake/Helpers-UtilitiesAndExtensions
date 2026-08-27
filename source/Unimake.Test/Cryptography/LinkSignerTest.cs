@@ -40,21 +40,21 @@ namespace EBank.Solutions.EBoleto.Test.PDF
 
             Xunit.Assert.Throws<CryptographicException>(() =>
             {
-                var parts = link.Split(new[] { '.' });
+                var parts = link.Split(['.']);
                 parts[1] += "abc123";//só para invalidar o header
                 LinkSigner.ValidateAndGetValues(link, key);
             });
 
             Xunit.Assert.Throws<CryptographicException>(() =>
             {
-                var parts = link.Split(new[] { '.' });
+                var parts = link.Split(['.']);
                 parts[2] += "abc123";//só para invalidar o payload
                 LinkSigner.ValidateAndGetValues(link, key);
             });
 
             Xunit.Assert.Throws<CryptographicException>(() =>
             {
-                var parts = link.Split(new[] { '.' });
+                var parts = link.Split(['.']);
                 parts[3] += "abc123";//só para invalidar o hash
                 LinkSigner.ValidateAndGetValues(link, key);
             });
@@ -123,28 +123,6 @@ namespace EBank.Solutions.EBoleto.Test.PDF
             Assert(key, link);
         }
 
-        [Theory]
-        [InlineData(ExpirationInterval.Seconds, 10)]
-        [InlineData(ExpirationInterval.Minutes, 10)]
-        [InlineData(ExpirationInterval.Hours, 10)]
-        [InlineData(ExpirationInterval.Days, 10)]
-        public void ValidateIatExpirationTest(ExpirationInterval expirationInterval, int interval)
-        {
-            //- interval para ter certeza que vai dar erro
-            var iat = LinkSigner.GetEpoch() - interval;
-            BuidlLink(out var key, out var link, new (string, object)[] {
-                ("param1", "value1"),
-                ("param2", "value2"),
-                ("param3", "value3"),
-                ("paramN", "valueN"),
-            }, iat);
-
-            DumpObject(link);
-
-            var decoded = LinkSigner.Decode(link, key, false);
-            Xunit.Assert.Throws<SecurityTokenExpiredException>(() => LinkSigner.ValidateIatExpiration(decoded, expirationInterval, 0));
-        }
-
         [Fact]
         public void ValidateIat30SecondsExpirationTest()
         {
@@ -175,6 +153,28 @@ namespace EBank.Solutions.EBoleto.Test.PDF
 
             //aqui tem que dar erro
             Xunit.Assert.Throws<SecurityTokenExpiredException>(() => LinkSigner.ValidateIatExpiration(decoded, ExpirationInterval.Seconds, seconds));
+        }
+
+        [Theory]
+        [InlineData(ExpirationInterval.Seconds, 10)]
+        [InlineData(ExpirationInterval.Minutes, 10)]
+        [InlineData(ExpirationInterval.Hours, 10)]
+        [InlineData(ExpirationInterval.Days, 10)]
+        public void ValidateIatExpirationTest(ExpirationInterval expirationInterval, int interval)
+        {
+            //- interval para ter certeza que vai dar erro
+            var iat = LinkSigner.GetEpoch() - interval;
+            BuidlLink(out var key, out var link, new (string, object)[] {
+                ("param1", "value1"),
+                ("param2", "value2"),
+                ("param3", "value3"),
+                ("paramN", "valueN"),
+            }, iat);
+
+            DumpObject(link);
+
+            var decoded = LinkSigner.Decode(link, key, false);
+            Xunit.Assert.Throws<SecurityTokenExpiredException>(() => LinkSigner.ValidateIatExpiration(decoded, expirationInterval, 0));
         }
 
         #endregion Public Methods

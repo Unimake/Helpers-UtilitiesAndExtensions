@@ -46,7 +46,7 @@ namespace EBank.Solutions.Primitives.Security
 
             foreach(var value in values)
             {
-                var paramValue = System.Web.HttpUtility.UrlEncode(value.Value?.ToString() ?? "");
+                var paramValue = HttpUtility.UrlEncode(value.Value?.ToString() ?? "");
                 sb.Append($"{separator}{value.Name}={paramValue}");
                 separator = separator ?? (separator = "&");
             }

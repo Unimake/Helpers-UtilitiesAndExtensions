@@ -53,7 +53,7 @@ namespace System
                     }
                     else
                     {
-                        result = System.Convert.ChangeType(value, conversionType);
+                        result = Convert.ChangeType(value, conversionType);
                     }
                 }
             }

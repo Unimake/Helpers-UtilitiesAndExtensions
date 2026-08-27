@@ -120,7 +120,7 @@ namespace System
         /// <returns></returns>
         public static double NextDouble(this Random random, double minimum, double maximum, int delay)
         {
-            System.Threading.Thread.Sleep(delay);
+            Threading.Thread.Sleep(delay);
             return minimum + random.NextDouble() * (maximum - minimum);
         }
 

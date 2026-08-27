@@ -20,36 +20,36 @@ namespace Unimake.Helpers_UtilitiesAndExtensions.Test.Types
             {
                 foreach(var item in new object[][]
                 {
-                    new object[]{
+                    [
                         new DateTimeRange(DateTime.Now, DateTime.Now.AddDays(5)),
                         new DateTimeRange(DateTime.Now, DateTime.Now.AddDays(7)),
                         false
-                    },
-                    new object[]{
+                    ],
+                    [
                         new DateTimeRange(DateTime.Now, DateTime.Now.AddDays(7)),
                         new DateTimeRange(DateTime.Now, DateTime.Now.AddDays(7)),
                         true
-                    },
-                    new object[]{
+                    ],
+                    [
                         null,
                         new DateTimeRange(DateTime.Now, DateTime.Now.AddDays(7)),
                         false
-                    },
-                    new object[]{
+                    ],
+                    [
                         new DateTimeRange(DateTime.Now, DateTime.Now.AddDays(12)),
                         new DateTimeRange(DateTime.Now, DateTime.Now.AddDays(7)),
                         false
-                    },
-                    new object[]{
+                    ],
+                    [
                         new DateTimeRange(DateTime.Now, DateTime.Now.AddDays(5)),
                         null,
                         false
-                    },
-                    new object[]{
+                    ],
+                    [
                         null,
                         null,
                         true
-                    }
+                    ]
                 })
                 {
                     yield return item;

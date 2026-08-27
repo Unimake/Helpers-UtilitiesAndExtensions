@@ -147,7 +147,7 @@ namespace Unimake.Cryptography
 
         public static string CreatePublicKey()
         {
-            using(var csp = RSACryptoServiceProvider.Create())
+            using(var csp = RSA.Create())
             {
                 using(var outputStream = new StringWriter())
                 {

@@ -61,7 +61,7 @@ namespace System
             {
                 using(var ms = new MemoryStream(fileBytes))
                 {
-                    using(var archive = new System.IO.Compression.ZipArchive(ms, System.IO.Compression.ZipArchiveMode.Read, leaveOpen: true))
+                    using(var archive = new System.IO.Compression.ZipArchive(ms, IO.Compression.ZipArchiveMode.Read, leaveOpen: true))
                     {
                         if(archive.Entries.Any(e => e.FullName.Equals("word/document.xml", StringComparison.OrdinalIgnoreCase)))
                             return new FileType { MimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document", Extension = "docx" };
@@ -98,8 +98,8 @@ namespace System
         {
             try
             {
-                var text = System.Text.Encoding.UTF8.GetString(bytes);
-                var encoded = System.Text.Encoding.UTF8.GetBytes(text);
+                var text = Text.Encoding.UTF8.GetString(bytes);
+                var encoded = Text.Encoding.UTF8.GetBytes(text);
                 return encoded.SequenceEqual(bytes);
             }
             catch
@@ -152,7 +152,7 @@ namespace System
             if(!overwrite &&
                index > 0)
             {
-                var existing = _fileTypes[index].FileType;  
+                var existing = _fileTypes[index].FileType;
                 throw new ArgumentException($"A assinatura binária já está registrada para o tipo MIME '{existing.MimeType}' e extensão '{existing.Extension}'.");
             }
 

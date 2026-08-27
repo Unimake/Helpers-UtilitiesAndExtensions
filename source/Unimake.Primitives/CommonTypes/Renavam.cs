@@ -107,7 +107,7 @@ namespace Unimake.Primitives.CommonTypes
         /// <returns></returns>
         public static bool operator ==(Renavam lhs, Renavam rhs)
         {
-            if(System.Object.ReferenceEquals(lhs, rhs))
+            if(ReferenceEquals(lhs, rhs))
             {
                 return true;
             }

@@ -23,6 +23,20 @@ namespace Unimake.Net
 
         #region Private Methods
 
+        private static void FillResponse(HttpConnectionResult result, HttpWebResponse response)
+        {
+            if(response == null)
+            {
+                return;
+            }
+
+            result.ResponseReceived = true;
+            result.StatusCode = (int)response.StatusCode;
+            result.IsSuccessStatusCode = result.StatusCode >= 200 && result.StatusCode <= 299;
+            result.FailureType = result.IsSuccessStatusCode ? HttpConnectionFailureType.None : HttpConnectionFailureType.Http;
+            result.WebExceptionStatus = result.IsSuccessStatusCode ? WebExceptionStatus.Success : WebExceptionStatus.ProtocolError;
+        }
+
         private static string GetLocalIPV4Address(bool ignoreLoopback = true)
         {
             var addresses = Dns.GetHostEntry(Dns.GetHostName()).AddressList
@@ -62,6 +76,46 @@ namespace Unimake.Net
         #endregion Private Methods
 
         #region Public Methods
+
+        /// <summary>
+        /// Normaliza um status de <see cref="WebException"/> em uma categoria estável.
+        /// </summary>
+        /// <param name="status">Status técnico da exceção.</param>
+        /// <returns>Categoria normalizada.</returns>
+        public static HttpConnectionFailureType ClassifyWebExceptionStatus(WebExceptionStatus status)
+        {
+            switch(status)
+            {
+                case WebExceptionStatus.NameResolutionFailure:
+                    return HttpConnectionFailureType.Dns;
+
+                case WebExceptionStatus.ConnectFailure:
+                case WebExceptionStatus.ConnectionClosed:
+                case WebExceptionStatus.KeepAliveFailure:
+                case WebExceptionStatus.ReceiveFailure:
+                case WebExceptionStatus.SendFailure:
+                    return HttpConnectionFailureType.Connection;
+
+                case WebExceptionStatus.Timeout:
+                    return HttpConnectionFailureType.Timeout;
+
+                case WebExceptionStatus.TrustFailure:
+                case WebExceptionStatus.SecureChannelFailure:
+                    return HttpConnectionFailureType.Tls;
+
+                case WebExceptionStatus.ProxyNameResolutionFailure:
+                    return HttpConnectionFailureType.Proxy;
+
+                case WebExceptionStatus.ProtocolError:
+                    return HttpConnectionFailureType.Http;
+
+                case WebExceptionStatus.Success:
+                    return HttpConnectionFailureType.None;
+
+                default:
+                    return HttpConnectionFailureType.Unknown;
+            }
+        }
 
         /// <summary>
         /// Retorna o número de IP local.
@@ -304,53 +358,6 @@ namespace Unimake.Net
             watch.Stop();
             result.DurationMilliseconds = watch.ElapsedMilliseconds;
             return result;
-        }
-
-        private static void FillResponse(HttpConnectionResult result, HttpWebResponse response)
-        {
-            if(response == null)
-            {
-                return;
-            }
-
-            result.ResponseReceived = true;
-            result.StatusCode = (int)response.StatusCode;
-            result.IsSuccessStatusCode = result.StatusCode >= 200 && result.StatusCode <= 299;
-            result.FailureType = result.IsSuccessStatusCode ? HttpConnectionFailureType.None : HttpConnectionFailureType.Http;
-            result.WebExceptionStatus = result.IsSuccessStatusCode ? WebExceptionStatus.Success : WebExceptionStatus.ProtocolError;
-        }
-
-        /// <summary>
-        /// Normaliza um status de <see cref="WebException"/> em uma categoria estável.
-        /// </summary>
-        /// <param name="status">Status técnico da exceção.</param>
-        /// <returns>Categoria normalizada.</returns>
-        public static HttpConnectionFailureType ClassifyWebExceptionStatus(WebExceptionStatus status)
-        {
-            switch(status)
-            {
-                case WebExceptionStatus.NameResolutionFailure:
-                    return HttpConnectionFailureType.Dns;
-                case WebExceptionStatus.ConnectFailure:
-                case WebExceptionStatus.ConnectionClosed:
-                case WebExceptionStatus.KeepAliveFailure:
-                case WebExceptionStatus.ReceiveFailure:
-                case WebExceptionStatus.SendFailure:
-                    return HttpConnectionFailureType.Connection;
-                case WebExceptionStatus.Timeout:
-                    return HttpConnectionFailureType.Timeout;
-                case WebExceptionStatus.TrustFailure:
-                case WebExceptionStatus.SecureChannelFailure:
-                    return HttpConnectionFailureType.Tls;
-                case WebExceptionStatus.ProxyNameResolutionFailure:
-                    return HttpConnectionFailureType.Proxy;
-                case WebExceptionStatus.ProtocolError:
-                    return HttpConnectionFailureType.Http;
-                case WebExceptionStatus.Success:
-                    return HttpConnectionFailureType.None;
-                default:
-                    return HttpConnectionFailureType.Unknown;
-            }
         }
 
         #endregion Public Methods
