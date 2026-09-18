@@ -315,6 +315,35 @@ namespace System
         }
 
         /// <summary>
+        /// Retorna o instante UTC (<see cref="DateTimeKind.Utc"/>) correspondente à meia-noite do dia da data informada, no fuso horário informado.
+        /// Útil para gravar em colunas <c>timestamptz</c> sem que o dia seja deslocado por conversões de fuso.
+        /// </summary>
+        /// <param name="dateTime">
+        /// Data base. <see cref="DateTimeKind.Utc"/> e <see cref="DateTimeKind.Local"/> são convertidas para o fuso informado antes de definir o dia.
+        /// <see cref="DateTimeKind.Unspecified"/> é considerada como data/hora já no fuso informado.
+        /// </param>
+        /// <param name="timezoneId">Se nada for informado, será utilizado o timezone "E. South America Standard Time"</param>
+        /// <returns>Meia-noite do dia no fuso informado, convertida para UTC. Se a meia-noite não existir (início de horário de verão), retorna a primeira hora válida do dia.</returns>
+        /// <example>
+        /// <code>
+        /// var hoje = DateTime.UtcNow.ToMidnightUtc(); // 2026-09-16T03:00:00Z se em Brasília for dia 16
+        /// </code>
+        /// </example>
+        public static DateTime ToMidnightUtc(this DateTime dateTime, TimeZoneId timezoneId = null)
+        {
+            var timeZone = (timezoneId ?? TimeZoneId.ESouthAmericaStandardTime).TimeZoneInfo;
+            var zoned = dateTime.Kind == DateTimeKind.Unspecified ? dateTime : TimeZoneInfo.ConvertTime(dateTime, timeZone);
+            var midnight = DateTime.SpecifyKind(zoned.Date, DateTimeKind.Unspecified);
+
+            while(timeZone.IsInvalidTime(midnight))
+            {
+                midnight = midnight.AddHours(1);
+            }
+
+            return TimeZoneInfo.ConvertTimeToUtc(midnight, timeZone);
+        }
+
+        /// <summary>
         /// Converte um valor Unix epoch time para <see cref="DateTime"/>
         /// </summary>
         /// <param name="unixTimeStamp">Unix <see cref="DateTime"/> em segundos</param>
