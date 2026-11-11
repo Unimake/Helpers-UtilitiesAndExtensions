@@ -357,3 +357,6 @@ MigrationBackup/
 /source/.github
 /source/.scripts/build-ai.ps1
 /source/.scripts/sync-solution-items.ps1
+/source/.cursor/rules
+/source/.project
+/source/.scripts

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
+#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
 namespace System
 {
     public static class StringExtensions

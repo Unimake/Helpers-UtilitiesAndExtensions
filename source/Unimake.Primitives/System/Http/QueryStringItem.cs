@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 
+#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
 namespace System.Http
 {
     /// <summary>
@@ -64,7 +66,7 @@ namespace System.Http
         {
             unchecked // Overflow ¯\_(ツ)_/¯
             {
-                int hash = (int)17;
+                var hash = 17;
 
                 hash = (hash * 23) ^ Value?.GetHashCode() ?? 0;
                 hash = (hash * 23) ^ Value?.GetHashCode() ?? 0;

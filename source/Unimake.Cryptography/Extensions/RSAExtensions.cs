@@ -3,6 +3,8 @@ using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 
+#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
 namespace System.Security.Cryptography
 {
     public static class RSAExtensions

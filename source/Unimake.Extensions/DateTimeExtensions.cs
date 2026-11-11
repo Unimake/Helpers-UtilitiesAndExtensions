@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 
+#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
 namespace System
 {
     /// <summary>

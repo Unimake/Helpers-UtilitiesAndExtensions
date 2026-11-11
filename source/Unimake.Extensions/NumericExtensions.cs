@@ -1,4 +1,6 @@
-﻿namespace System
+﻿#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
+namespace System
 {
     /// <summary>
     /// Fornece métodos de extensão para retornar um valor padrão caso o valor numérico seja nulo ou zero.

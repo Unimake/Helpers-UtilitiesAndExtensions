@@ -8,6 +8,8 @@ using Unimake.Cryptography.Enumerations;
 using Unimake.Cryptography.Exceptions;
 using Unimake.Cryptography.JWT;
 
+#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
 namespace EBank.Solutions.Primitives.Security
 {
     /// <summary>
@@ -145,11 +147,12 @@ namespace EBank.Solutions.Primitives.Security
                                       string encodedParamenterName = "code",
                                       long? iat = null)
         {
-            var payload = new Dictionary<string, object>();
-
-            payload.Add("sub", subject);
-            payload.Add("iss", issuer);
-            payload.Add("iat", iat ?? GetEpoch());
+            var payload = new Dictionary<string, object>
+            {
+                { "sub", subject },
+                { "iss", issuer },
+                { "iat", iat ?? GetEpoch() }
+            };
 
             if(claims != null)
             {

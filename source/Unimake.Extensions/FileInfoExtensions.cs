@@ -1,4 +1,6 @@
-﻿namespace System.IO
+﻿#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
+namespace System.IO
 {
     /// <summary>
     /// Extensões para os tipo FileInfo

@@ -1,4 +1,6 @@
-﻿namespace System.Linq.Expressions
+﻿#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
+namespace System.Linq.Expressions
 {
     public static class ExpressionExtensions
     {

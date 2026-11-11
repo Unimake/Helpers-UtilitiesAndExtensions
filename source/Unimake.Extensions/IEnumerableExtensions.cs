@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 
+#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
 namespace System.Collections.Generic
 {
     /// <summary>

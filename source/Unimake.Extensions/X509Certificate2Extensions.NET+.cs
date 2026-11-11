@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
+#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
 namespace System.Security.Cryptography.X509Certificates
 {
     /// <summary>
@@ -11,8 +13,6 @@ namespace System.Security.Cryptography.X509Certificates
     /// </summary>
     public static class X509Certificate2Extensions
     {
-        #region Private Enums
-
         private enum KeyFileKinds
         {
             None = 0,
@@ -21,10 +21,6 @@ namespace System.Security.Cryptography.X509Certificates
             RsaPrivateKey,
             Any = -1,
         }
-
-        #endregion Private Enums
-
-        #region Private Methods
 
         private static byte[] MakePfx(X509Certificate2 cert, ReadOnlySpan<char> key, string exportPassword)
         {
@@ -178,10 +174,6 @@ namespace System.Security.Cryptography.X509Certificates
             }
         }
 
-        #endregion Private Methods
-
-        #region Public Methods
-
         /// <summary>
         /// Cria um novo certificado com o conteúdo da chave informado em <paramref name="keyContent"/>
         /// </summary>
@@ -201,8 +193,6 @@ namespace System.Security.Cryptography.X509Certificates
         /// <returns></returns>
         public static X509Certificate2 UseKeyFromFile(this X509Certificate2 certificate, string keyPath, string exportPassword = "") =>
             new X509Certificate2(MakePfx(certificate, File.ReadAllText(keyPath), exportPassword));
-
-        #endregion Public Methods
     }
 }
 

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Unimake.Primitives.Collections.Page;
 
+#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
 namespace System.Collections.Generic
 {
     public static class PagedListExtensions

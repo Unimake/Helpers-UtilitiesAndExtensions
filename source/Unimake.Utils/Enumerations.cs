@@ -1,4 +1,6 @@
-﻿namespace Unimake.Validators.Enumerations
+﻿#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
+namespace Unimake.Validators.Enumerations
 {
     /// <summary>
     /// Determina a comparação entre as datas

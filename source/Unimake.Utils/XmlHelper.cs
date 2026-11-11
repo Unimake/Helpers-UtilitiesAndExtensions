@@ -3,6 +3,8 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
+#pragma warning disable IDE0130 // Namespace de extensões devem corresponder ao tipo extendido
+
 namespace System.Xml
 {
     public static class XmlHelper
